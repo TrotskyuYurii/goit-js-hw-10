@@ -11,9 +11,11 @@ const options = {
     if (selectedDates[0] <= new Date()) {
       startButton.disabled = true;
     //   window.alert('Please choose a date in the future');
-    iziToast.show({
-        title: 'Hey',
-        message: 'What would you like to add?'
+    iziToast.error({
+        // title: 'Hey',
+        message: 'Please choose a date in the future',
+        position: 'topRight',
+        color: 'red',
     });
       return;
     } else {
