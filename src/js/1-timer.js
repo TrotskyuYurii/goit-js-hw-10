@@ -1,5 +1,7 @@
 let userSelectedDate = undefined;
 const startButton = document.querySelector('[data-start]');
+const timerDisplay = document.querySelector('.timer .value');
+
 
 //ініціалізація flatpickr
 const options = {
@@ -10,7 +12,6 @@ const options = {
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
       startButton.disabled = true;
-    //   window.alert('Please choose a date in the future');
     iziToast.error({
         // title: 'Hey',
         message: 'Please choose a date in the future',
@@ -45,6 +46,36 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
   }
 
+// Функція для підрахунку часу та оновлення таймера
+function updateTimer() {
+    const currentTime = new Date().getTime();
+    const timeDifference = userSelectedDate.getTime() - currentTime;
+  
+    if (timeDifference <= 0) {
+      timerDisplay.textContent = '00:00:00:00';
+      clearInterval(timerInterval);
+      return;
+    }
+  
+    const { days, hours, minutes, seconds } = convertMs(timeDifference);
+  
+    // Форматування та вивід значень у форматі xx:xx:xx:xx
+    const formattedTime = `${addLeadingZero(days)}:${addLeadingZero(hours)}:${addLeadingZero(minutes)}:${addLeadingZero(seconds)}`;
+    timerDisplay.textContent = formattedTime;
+  }
+  
+  // Функція для додавання ведучого нуля
+  function addLeadingZero(value) {
+    return String(value).padStart(2, '0');
+  }
+
+
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded', function () {
   //запуск flatpickr
@@ -53,7 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Обробка кнопки Start
   startButton.disabled = true;
 
-  startButton.addEventListener('click', function () {
-    console.log(userSelectedDate);
+  startButton.addEventListener('click', function () { 
+        if (userSelectedDate) {
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+          }
   });
 });
