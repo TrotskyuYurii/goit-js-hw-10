@@ -2,6 +2,11 @@ let userSelectedDate = undefined;
 const startButton = document.querySelector('[data-start]');
 const timerDisplay = document.querySelector('.timer .value');
 
+const timerDay = document.querySelector('[data-days]');
+const timerHours = document.querySelector('[data-hours]');
+const timerMinutes = document.querySelector('[data-minutes]');
+const timerSeconds = document.querySelector('[data-seconds]');
+
 
 //ініціалізація flatpickr
 const options = {
@@ -59,9 +64,10 @@ function updateTimer() {
   
     const { days, hours, minutes, seconds } = convertMs(timeDifference);
   
-    // Форматування та вивід значень у форматі xx:xx:xx:xx
-    const formattedTime = `${addLeadingZero(days)}:${addLeadingZero(hours)}:${addLeadingZero(minutes)}:${addLeadingZero(seconds)}`;
-    timerDisplay.textContent = formattedTime;
+    timerDay.textContent = addLeadingZero(days);
+    timerHours.textContent = addLeadingZero(hours);
+    timerMinutes.textContent = addLeadingZero(minutes);
+    timerSeconds.textContent = addLeadingZero(seconds);
   }
   
   // Функція для додавання ведучого нуля
