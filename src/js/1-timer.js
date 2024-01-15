@@ -1,6 +1,6 @@
 let userSelectedDate = undefined;
 const startButton = document.querySelector('[data-start]');
-const timerDisplay = document.querySelector('.timer .value');
+const inputArea = document.querySelector('#datetime-picker');
 
 const timerDay = document.querySelector('[data-days]');
 const timerHours = document.querySelector('[data-hours]');
@@ -57,11 +57,15 @@ function updateTimer() {
     const timeDifference = userSelectedDate.getTime() - currentTime;
   
     if (timeDifference <= 0) {
-      timerDisplay.textContent = '00:00:00:00';
       clearInterval(timerInterval);
+      inputArea.value = "00:00:00:00";
+      startButton.disabled = false;
       return;
+      
     }
-  
+    
+    startButton.disabled = true;
+    
     const { days, hours, minutes, seconds } = convertMs(timeDifference);
   
     timerDay.textContent = addLeadingZero(days);
@@ -74,11 +78,6 @@ function updateTimer() {
   function addLeadingZero(value) {
     return String(value).padStart(2, '0');
   }
-
-
-
-
-
 
 
 
