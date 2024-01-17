@@ -24,16 +24,24 @@ createNotification.addEventListener('click', function (event) {
         stateInput.value === 'fulfilled' ? 'fulfilled' : 'rejected';
       result === 'fulfilled'
         ? resolve(delay)
-        : reject(`Notification creation failed after ${delay} ms`);
+        : reject(delay);
     }, delay);
   });
 
   notificationPromise
     .then(delay => {
-      console.log(`Notification created successfully after ${delay} ms`);
+        iziToast.error({
+            message: `Fulfilled promise in ${delay} ms`,
+            position: 'topRight',
+            color: 'green',
+          });
     })
     .catch(error => {
-      console.error(error);
+        iziToast.error({
+            message: `Reject promise in ${error} ms`,
+            position: 'topRight',
+            color: 'red',
+          });
     });
 
 
