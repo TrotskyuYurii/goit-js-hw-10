@@ -1,3 +1,6 @@
+import iziToast from 'izitoast';
+import "izitoast/dist/css/iziToast.min.css";
+
 const createNotification = document.querySelector('button[type="submit"]');
 
 createNotification.addEventListener('click', function (event) {

@@ -1,3 +1,6 @@
+import iziToast from 'izitoast';
+import "izitoast/dist/css/iziToast.min.css";
+
 let userSelectedDate = undefined;
 const startButton = document.querySelector('[data-start]');
 const inputArea = document.querySelector('#datetime-picker');
