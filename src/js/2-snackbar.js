@@ -32,7 +32,7 @@ createNotification.addEventListener('click', function (event) {
 
   notificationPromise
     .then(delay => {
-      iziToast.error({
+      iziToast.success({
         message: `Fulfilled promise in ${delay} ms`,
         position: 'topRight',
         color: 'green',
