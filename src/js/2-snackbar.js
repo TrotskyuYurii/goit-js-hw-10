@@ -1,9 +1,9 @@
 import iziToast from 'izitoast';
-import "izitoast/dist/css/iziToast.min.css";
+import 'izitoast/dist/css/iziToast.min.css';
 
-const createNotification = document.querySelector('button[type="submit"]');
+const notificationForm = document.querySelector('form');
 
-createNotification.addEventListener('click', function (event) {
+notificationForm.addEventListener('submit', function (event) {
   event.preventDefault();
   const delayInput = document.querySelector('input[name="delay"]');
   const stateInput = document.querySelector('input[name="state"]:checked');
@@ -12,7 +12,7 @@ createNotification.addEventListener('click', function (event) {
     iziToast.error({
       message: 'No selected state or delay',
       position: 'topRight',
-      color: 'red',
+      backgroundColor: 'red',
     });
     return;
   }
@@ -20,17 +20,13 @@ createNotification.addEventListener('click', function (event) {
   const delay = parseInt(delayInput.value);
 
   const notificationPromise = new Promise((resolve, reject) => {
-    setTimeout(
-      () => {
-        if (stateInput.value === 'fulfilled') {
-          resolve(delay);
-        } else {
-          reject(delay);
-        }
-      },
-
-      delay
-    );
+    setTimeout(() => {
+      if (stateInput.value === 'fulfilled') {
+        resolve(delay);
+      } else {
+        reject(delay);
+      }
+    }, delay);
   });
 
   notificationPromise
@@ -38,14 +34,14 @@ createNotification.addEventListener('click', function (event) {
       iziToast.success({
         message: `Fulfilled promise in ${delay} ms`,
         position: 'topRight',
-        color: 'green',
+        backgroundColor: 'green',
       });
     })
     .catch(error => {
       iziToast.error({
         message: `Reject promise in ${error} ms`,
         position: 'topRight',
-        color: 'red',
+        backgroundColor: 'red',
       });
     });
 });

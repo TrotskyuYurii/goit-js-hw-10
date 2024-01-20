@@ -1,8 +1,8 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-let userSelectedDate = 0;
-let timerInterval = null;
+let userSelectedDate;
+let timerInterval;
 const startButton = document.querySelector('[data-start]');
 const inputArea = document.querySelector('#datetime-picker');
 
@@ -31,14 +31,13 @@ const options = {
       iziToast.error({
         message: 'Please choose a date in the future',
         position: 'topRight',
-        color: 'red',
+        backgroundColor: 'red',
       });
       return;
     } else {
       startButton.disabled = false;
       userSelectedDate = selectedDates[0];
-
-      if (timerInterval != null) {
+      if (timerInterval != undefined) {
         clearInterval(timerInterval);
       }
       updateTimer();
@@ -68,13 +67,17 @@ function convertMs(ms) {
 }
 
 // Функція для підрахунку часу та оновлення таймера
+// Функція для підрахунку часу та оновлення таймера
 function updateTimer() {
   const currentTime = new Date().getTime();
   const timeDifference = userSelectedDate.getTime() - currentTime;
 
   if (timeDifference <= 0) {
     clearInterval(timerInterval);
-    inputArea.value = '00:00:00:00';
+    timerDay.textContent = '00';
+    timerHours.textContent = '00';
+    timerMinutes.textContent = '00';
+    timerSeconds.textContent = '00';
     startButton.disabled = false;
     return;
   }
