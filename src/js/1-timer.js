@@ -1,11 +1,10 @@
 import iziToast from 'izitoast';
-import "izitoast/dist/css/iziToast.min.css";
+import 'izitoast/dist/css/iziToast.min.css';
 
-let userSelectedDate = undefined;
+let userSelectedDate = 0;
 let timerInterval = null;
 const startButton = document.querySelector('[data-start]');
 const inputArea = document.querySelector('#datetime-picker');
-
 
 const timerDay = document.querySelector('[data-days]');
 const timerHours = document.querySelector('[data-hours]');
@@ -30,7 +29,6 @@ const options = {
     if (selectedDates[0] <= new Date()) {
       startButton.disabled = true;
       iziToast.error({
-        // title: 'Hey',
         message: 'Please choose a date in the future',
         position: 'topRight',
         color: 'red',
@@ -40,9 +38,11 @@ const options = {
       startButton.disabled = false;
       userSelectedDate = selectedDates[0];
 
-      clearInterval(timerInterval);
+      if (timerInterval != null) {
+        clearInterval(timerInterval);
+      }
       updateTimer();
-      
+      startButton.disabled = false;
     }
   },
 };
