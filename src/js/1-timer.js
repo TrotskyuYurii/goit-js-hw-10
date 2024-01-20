@@ -2,8 +2,10 @@ import iziToast from 'izitoast';
 import "izitoast/dist/css/iziToast.min.css";
 
 let userSelectedDate = undefined;
+let timerInterval = null;
 const startButton = document.querySelector('[data-start]');
 const inputArea = document.querySelector('#datetime-picker');
+
 
 const timerDay = document.querySelector('[data-days]');
 const timerHours = document.querySelector('[data-hours]');
