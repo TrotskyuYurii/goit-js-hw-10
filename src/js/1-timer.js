@@ -24,7 +24,7 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose: handleDateSelection, 
+  onClose: handleDateSelection,
 };
 
 //Функция для форматування часу
@@ -52,7 +52,6 @@ function updateTimer() {
   const currentTime = new Date().getTime();
   const timeDifference = userSelectedDate.getTime() - currentTime;
 
-
   if (timeDifference <= 0) {
     clearInterval(timerInterval);
     timerDay.textContent = '00';
@@ -62,16 +61,14 @@ function updateTimer() {
     startButton.disabled = false;
     return;
   } else {
-    const { days, hours, minutes, seconds } = convertMs(timeDifference);
-    timerDay.textContent = addLeadingZero(days);
-    timerHours.textContent = addLeadingZero(hours);
-    timerMinutes.textContent = addLeadingZero(minutes);
-    timerSeconds.textContent = addLeadingZero(seconds);
+    showDateTime(timeDifference);
+    // const { days, hours, minutes, seconds } = convertMs(timeDifference);
+    // timerDay.textContent = addLeadingZero(days);
+    // timerHours.textContent = addLeadingZero(hours);
+    // timerMinutes.textContent = addLeadingZero(minutes);
+    // timerSeconds.textContent = addLeadingZero(seconds);
     startButton.disabled = true;
   }
-
-
-
 }
 
 // Функція для додавання ведучого нуля
@@ -87,8 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
   startButton.disabled = true;
 });
 
-
-
 function handleDateSelection(selectedDates) {
   if (selectedDates[0] <= new Date()) {
     startButton.disabled = true;
@@ -101,6 +96,17 @@ function handleDateSelection(selectedDates) {
     startButton.disabled = false;
     clearInterval(timerInterval);
     userSelectedDate = selectedDates[0];
-    // updateTimer();
+
+    const currentTime = new Date().getTime();
+    const timeDifference = userSelectedDate.getTime() - currentTime;
+    showDateTime(timeDifference);
   }
+}
+
+function showDateTime(timeDifference) {
+  const { days, hours, minutes, seconds } = convertMs(timeDifference);
+  timerDay.textContent = addLeadingZero(days);
+  timerHours.textContent = addLeadingZero(hours);
+  timerMinutes.textContent = addLeadingZero(minutes);
+  timerSeconds.textContent = addLeadingZero(seconds);
 }
