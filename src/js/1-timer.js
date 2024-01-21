@@ -54,10 +54,11 @@ function updateTimer() {
 
   if (timeDifference <= 0) {
     clearInterval(timerInterval);
-    timerDay.textContent = '00';
-    timerHours.textContent = '00';
-    timerMinutes.textContent = '00';
-    timerSeconds.textContent = '00';
+    showDateTime(timeDifference, true);
+    // timerDay.textContent = '00';
+    // timerHours.textContent = '00';
+    // timerMinutes.textContent = '00';
+    // timerSeconds.textContent = '00';
     startButton.disabled = false;
     return;
   } else {
@@ -103,10 +104,18 @@ function handleDateSelection(selectedDates) {
   }
 }
 
-function showDateTime(timeDifference) {
-  const { days, hours, minutes, seconds } = convertMs(timeDifference);
-  timerDay.textContent = addLeadingZero(days);
-  timerHours.textContent = addLeadingZero(hours);
-  timerMinutes.textContent = addLeadingZero(minutes);
-  timerSeconds.textContent = addLeadingZero(seconds);
+//Функція для відображення часу
+function showDateTime(timeDifference, clear = false) {
+  if (clear) {
+    timerDay.textContent = '00';
+    timerHours.textContent = '00';
+    timerMinutes.textContent = '00';
+    timerSeconds.textContent = '00';
+  } else {
+    const { days, hours, minutes, seconds } = convertMs(timeDifference);
+    timerDay.textContent = addLeadingZero(days);
+    timerHours.textContent = addLeadingZero(hours);
+    timerMinutes.textContent = addLeadingZero(minutes);
+    timerSeconds.textContent = addLeadingZero(seconds);
+  }
 }
