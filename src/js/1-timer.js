@@ -14,7 +14,6 @@ const timerSeconds = document.querySelector('[data-seconds]');
 // Додання події на кнопку Start
 startButton.addEventListener('click', function () {
   if (userSelectedDate) {
-    updateTimer();
     timerInterval = setInterval(updateTimer, 1000);
   }
 });
@@ -25,25 +24,7 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    if (selectedDates[0] <= new Date()) {
-      startButton.disabled = true;
-      iziToast.error({
-        message: 'Please choose a date in the future',
-        position: 'topRight',
-        backgroundColor: 'red',
-      });
-      return;
-    } else {
-      startButton.disabled = false;
-      userSelectedDate = selectedDates[0];
-      if (timerInterval != undefined) {
-        clearInterval(timerInterval);
-      }
-      updateTimer();
-      startButton.disabled = false;
-    }
-  },
+  onClose: handleDateSelection, 
 };
 
 //Функция для форматування часу
@@ -67,10 +48,10 @@ function convertMs(ms) {
 }
 
 // Функція для підрахунку часу та оновлення таймера
-// Функція для підрахунку часу та оновлення таймера
 function updateTimer() {
   const currentTime = new Date().getTime();
   const timeDifference = userSelectedDate.getTime() - currentTime;
+
 
   if (timeDifference <= 0) {
     clearInterval(timerInterval);
@@ -80,16 +61,17 @@ function updateTimer() {
     timerSeconds.textContent = '00';
     startButton.disabled = false;
     return;
+  } else {
+    const { days, hours, minutes, seconds } = convertMs(timeDifference);
+    timerDay.textContent = addLeadingZero(days);
+    timerHours.textContent = addLeadingZero(hours);
+    timerMinutes.textContent = addLeadingZero(minutes);
+    timerSeconds.textContent = addLeadingZero(seconds);
+    startButton.disabled = true;
   }
 
-  startButton.disabled = true;
 
-  const { days, hours, minutes, seconds } = convertMs(timeDifference);
 
-  timerDay.textContent = addLeadingZero(days);
-  timerHours.textContent = addLeadingZero(hours);
-  timerMinutes.textContent = addLeadingZero(minutes);
-  timerSeconds.textContent = addLeadingZero(seconds);
 }
 
 // Функція для додавання ведучого нуля
@@ -104,3 +86,21 @@ document.addEventListener('DOMContentLoaded', function () {
   // Обробка кнопки Start
   startButton.disabled = true;
 });
+
+
+
+function handleDateSelection(selectedDates) {
+  if (selectedDates[0] <= new Date()) {
+    startButton.disabled = true;
+    iziToast.error({
+      message: 'Please choose a date in the future',
+      position: 'topRight',
+      backgroundColor: 'red',
+    });
+  } else {
+    startButton.disabled = false;
+    clearInterval(timerInterval);
+    userSelectedDate = selectedDates[0];
+    // updateTimer();
+  }
+}
